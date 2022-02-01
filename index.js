@@ -127,7 +127,9 @@ app.get('/', (req, res) => {
 
                 const title = $(this).text()
                 const url = $(this).html();
-
+                const urlL = $('.AnchorLink', url);
+                const urlL1 = $(urlL).attr('href');
+                console.log(urlL1);
                 articles.push({
                     title,
                     url: url,
