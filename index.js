@@ -69,30 +69,15 @@ const newspapers = [
         name: 'nyp',
         address: 'https://nypost.com/tag/climate-change/',
         base: ''
+    },
+    {
+        name: 'abcnews',
+        address: 'https://abcnews.go.com/International/',
+        base: ''
     }
 ]
 
 const articles = []
-
-// newspapers.forEach(newspaper => {
-//     axios.get(newspaper.address)
-//         .then(response => {
-//             const html = response.data
-//             const $ = cheerio.load(html)
-
-//             $('a:contains("climate")', html).each(function () {
-//                 const title = $(this).text()
-//                 const url = $(this).attr('href')
-
-//                 articles.push({
-//                     title,
-//                     url: newspaper.base + url,
-//                     source: newspaper.name
-//                 })
-//             })
-
-//         })
-// })
 
 app.get('/', (req, res) => {
 
@@ -104,24 +89,6 @@ app.get('/', (req, res) => {
             let responseData = //$('.band__articleroll', html).html();
              $('.band__articleroll.band').html();
 
-            //  const listItems = $('.ContentRoll__Headline', responseData).;
-            //  console.log(listItems.length);
-
-            // $(".block__double-column.block").html();
-
-            // $('.ContentRoll__Headline', html).each(function () {
- 
-            //     const title = $(this).html()
-            //     responseData =+ title
-            //     // const url = $(this).attr('href')
-
-            //     // articles.push({
-            //     //     title,
-            //     //     url: newspaper.base + url,
-            //     //     source: newspaper.name
-            //     // })
-            // })
-
             $('.ContentRoll__Headline', html).each(function () {
                 
 
@@ -132,8 +99,11 @@ app.get('/', (req, res) => {
                 console.log(urlL1);
                 articles.push({
                     title,
-                    url: url,
-                    // source: newspaper.name
+                    url: urlL1,
+                    text: $(urlL).html(),
+                    logoUrl: "https://s.abcnews.com/assets/dtci/icomoon/svg/logo.svg",
+                    source: "abcnews"
+
                 })
             })
             console.log(articles.length);
@@ -141,37 +111,10 @@ app.get('/', (req, res) => {
         }
     );
 
-    // res.json('Welcome to my Climate Change News API')
 })
 
 app.get('/news', (req, res) => {
     res.json(articles)
 })
-
-// app.get('/news/:newspaperId', (req, res) => {
-//     const newspaperId = req.params.newspaperId
-
-//     const newspaperAddress = newspapers.filter(newspaper => newspaper.name == newspaperId)[0].address
-//     const newspaperBase = newspapers.filter(newspaper => newspaper.name == newspaperId)[0].base
-
-
-//     axios.get(newspaperAddress)
-//         .then(response => {
-//             const html = response.data
-//             const $ = cheerio.load(html)
-//             const specificArticles = []
-
-//             $('a:contains("climate")', html).each(function () {
-//                 const title = $(this).text()
-//                 const url = $(this).attr('href')
-//                 specificArticles.push({
-//                     title,
-//                     url: newspaperBase + url,
-//                     source: newspaperId
-//                 })
-//             })
-//             res.json(specificArticles)
-//         }).catch(err => console.log(err))
-// })
 
 app.listen(PORT, () => console.log(`server running on PORT ${PORT}`))
