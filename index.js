@@ -1,8 +1,21 @@
 const PORT = process.env.PORT || 8000
 const express = require('express')
+var cors = require('cors')
 const axios = require('axios')
 const cheerio = require('cheerio')
 const app = express()
+
+var whitelist = ['http://localhost:8001/', 'http://localhost:8001', 'http://news-general-news.cf']
+var corsOptions = {
+  origin: function (origin, callback) {
+    console.log("origin", origin);
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 const newspapers = [
     {
@@ -79,7 +92,8 @@ const newspapers = [
 
 const articles = []
 
-app.get('/', (req, res) => {
+
+app.get('/', cors(corsOptions), (req, res) => {
 
     axios.get("https://abcnews.go.com/International/")
     .then(response => 
@@ -100,9 +114,14 @@ app.get('/', (req, res) => {
                 articles.push({
                     title,
                     url: urlL1,
-                    text: $(urlL).html(),
+                    urlToImage: "",
+                    description: $(urlL).html(),
                     logoUrl: "https://s.abcnews.com/assets/dtci/icomoon/svg/logo.svg",
-                    source: "abcnews"
+                    name: "abc News",
+                    source:{
+                        id: "abcnews",
+                        name: "abc News"
+                    }
 
                 })
             })
