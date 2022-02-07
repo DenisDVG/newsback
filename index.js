@@ -90,11 +90,11 @@ const newspapers = [
     }
 ]
 
-const articles = []
+let articles = []
 
 
 app.get('/', cors(corsOptions), (req, res) => {
-
+    articles = [];
     axios.get("https://abcnews.go.com/International/")
     .then(response => 
         {
@@ -110,7 +110,11 @@ app.get('/', cors(corsOptions), (req, res) => {
                 const url = $(this).html();
                 const urlL = $('.AnchorLink', url);
                 const urlL1 = $(urlL).attr('href');
-                console.log(urlL1);
+ 
+                const images = $('.Image__Wrapper', urlL);
+                const images1 = $(images).attr('src');
+                console.log(JSON.stringify(images.data));
+
                 articles.push({
                     title,
                     url: urlL1,
