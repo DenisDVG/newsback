@@ -9,7 +9,8 @@ var whitelist = ['http://localhost:8001/', 'http://localhost:8001', 'http://news
 var corsOptions = {
   origin: function (origin, callback) {
     console.log("origin", origin);
-    if (whitelist.indexOf(origin) !== -1) {
+    console.log("whitelist.indexOf(origin)", whitelist.indexOf(origin));
+    if (whitelist.indexOf(origin) > -1) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
@@ -100,26 +101,25 @@ app.get('/', cors(corsOptions), (req, res) => {
         {
             const html = response.data
             const $ = cheerio.load(html)
-            let responseData = //$('.band__articleroll', html).html();
-             $('.band__articleroll.band').html();
 
-            $('.ContentRoll__Headline', html).each(function () {
+            $('.ContentRoll__Item').each(function () {
                 
 
-                const title = $(this).text()
+                //const title = $(this).text()
                 const url = $(this).html();
-                const urlL = $('.AnchorLink', url);
-                const urlL1 = $(urlL).attr('href');
- 
-                const images = $('.Image__Wrapper', urlL);
+                const anchorLink = $('.AnchorLink', url);
+                //const urlL1 = $(urlL).attr('href');
+                const contentRollDesc = $('.ContentRoll__Desc', url);
+                const images = $('img', url);
                 const images1 = $(images).attr('src');
-                console.log(JSON.stringify(images.data));
+                console.log("-------------------------------------------------------");
+                console.log($(this).html());
 
                 articles.push({
-                    title,
-                    url: urlL1,
+                    title:  $(anchorLink).text(),
+                    url: "",
                     urlToImage: "",
-                    description: $(urlL).html(),
+                    description: $(contentRollDesc).text(),
                     logoUrl: "https://s.abcnews.com/assets/dtci/icomoon/svg/logo.svg",
                     name: "abc News",
                     source:{
