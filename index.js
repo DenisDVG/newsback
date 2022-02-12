@@ -5,7 +5,11 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 const app = express()
 
-var whitelist = ['http://localhost:8001/', 'http://localhost:8001', 'http://news-general-news.cf']
+var whitelist = ['http://localhost:8001/', 
+'http://localhost:8001', 
+'http://news-general-news.cf',
+'https://news193.p.rapidapi.com/',
+'https://news193.p.rapidapi.com']
 var corsOptions = {
   origin: function (origin, callback) {
     console.log("origin", origin);
