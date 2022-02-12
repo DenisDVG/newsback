@@ -106,18 +106,18 @@ app.get('/', cors(corsOptions), (req, res) => {
                 
 
                 //const title = $(this).text()
-                const url = $(this).html();
-                const anchorLink = $('.AnchorLink', url);
-                //const urlL1 = $(urlL).attr('href');
-                const contentRollDesc = $('.ContentRoll__Desc', url);
-                const images = $('img', url);
+                const htmlThis = $(this).html();
+                const anchorLink = $('.AnchorLink', htmlThis);
+                const urlL1 = $(anchorLink).attr('href');
+                const contentRollDesc = $('.ContentRoll__Desc', htmlThis);
+                const images = $('img', htmlThis);
                 const images1 = $(images).attr('src');
                 console.log("-------------------------------------------------------");
                 console.log($(this).html());
 
                 articles.push({
                     title:  $(anchorLink).text(),
-                    url: "",
+                    url: urlL1,
                     urlToImage: "",
                     description: $(contentRollDesc).text(),
                     logoUrl: "https://s.abcnews.com/assets/dtci/icomoon/svg/logo.svg",
