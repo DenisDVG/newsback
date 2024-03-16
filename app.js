@@ -10,7 +10,8 @@ var whitelist = ['http://localhost:8001/',
 'http://news-general-news.cf',
 'https://news193.p.rapidapi.com/',
 'https://news193.p.rapidapi.com',
-'https://news-general.neocities.org/']
+'https://news-general.neocities.org/',
+'https://news-general.neocities.org']
 var corsOptions = {
   origin: function (origin, callback) {
     console.log("origin", origin);
